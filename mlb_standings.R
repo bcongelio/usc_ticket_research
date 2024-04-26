@@ -47,5 +47,4 @@ mlb_standings <- mlb_standings |>
     last_30 = last30) |> 
   select(date, everything())
 
-colnames(mlb_standings)  
 
