@@ -2,9 +2,6 @@ library(tidyverse)
 library(httr)
 library(data.table)
 
-SEATGEEK_CLIENT_ID = "NDAzOTI1Mzh8MTcxMDQzMjcwNS4xNDA2ODQ4"
-SEATGEEK_CLIENT_SECRET = "c6c030421c3e6ce9083ed0687658d34a23d53d9c6fa650df30e5948769a1948e"
-
 daily_run_mlb <- data.frame()
 
 get_seatgeek_data <- function() {
