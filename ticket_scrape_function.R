@@ -10,6 +10,7 @@ get_seatgeek_data <- function() {
   ### scrape mlb standings
   url <- "https://www.baseball-reference.com/leagues/MLB-standings.shtml"
   
+  ### rvest for scraping
   mlb_standings <- url |> 
     read_html() |> 
     html_nodes("#all_expanded_standings_overall") |> 
@@ -22,6 +23,7 @@ get_seatgeek_data <- function() {
     janitor::clean_names() |> 
     select(-rk)
   
+  ### cleaning retrieve standing data
   mlb_standings <- mlb_standings |> 
     mutate(date = Sys.Date()) |> 
     rename(
@@ -54,6 +56,7 @@ get_seatgeek_data <- function() {
       last_30 = last30) |> 
     select(date, everything())
 
+  ### function for scraping seat geek data
   for(mlb_pages in 1:10) {
   
   mlb_taxonomy_url <- paste0("https://api.seatgeek.com/2/events?taxonomies.id=1010100&client_id=",SEATGEEK_CLIENT_ID,
@@ -107,9 +110,11 @@ get_seatgeek_data <- function() {
   ### mlb team name mapping
   team_name_mapping <- vroom::vroom("https://raw.githubusercontent.com/bcongelio/usc_ticket_research/main/team_name_mapping.csv")
 
+  ### merging team mapping
   df <- df |> 
     inner_join(team_name_mapping, by = c("home_team" = "team_hyphen"))
   
+  ### merging standings on day of retrieve
   df <- df |> 
     inner_join(mlb_standings, by = c("team_full_name" = "team",
                                      "retrieve_date" = "date"))
