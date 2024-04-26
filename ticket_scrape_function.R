@@ -1,7 +1,7 @@
 library(tidyverse)
 library(httr)
 library(data.table)
-library(rvest)
+library(vroom)
 
 daily_run_mlb <- data.frame()
 
@@ -105,6 +105,7 @@ get_seatgeek_data <- function() {
   df <- data.frame(mlb_dat_out)
   
   ### mlb team name mapping
+  team_name_mapping <- vroom::vroom("https://raw.githubusercontent.com/bcongelio/usc_ticket_research/main/team_name_mapping.csv")
 
   df <- df |> 
     inner_join(team_name_mapping, by = c("home_team" = "team_hyphen"))
@@ -112,7 +113,6 @@ get_seatgeek_data <- function() {
   df <- df |> 
     inner_join(mlb_standings, by = c("team_full_name" = "team",
                                      "retrieve_date" = "date"))
-
   
   daily_run_mlb <- rbind(daily_run_mlb, df)
   

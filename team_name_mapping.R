@@ -15,3 +15,5 @@ team_hyphen_names <- unique(daily_run$home_team) |>
 
 ### merge for complete team name mapping
 team_name_mapping <- cbind(team_hyphen_names, baseball_names)
+
+write.csv(team_name_mapping, "./team_name_mapping.csv", row.names = FALSE)
