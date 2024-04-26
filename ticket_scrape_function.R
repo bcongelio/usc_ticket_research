@@ -51,11 +51,19 @@ get_seatgeek_data <- function() {
   distinct(id, .keep_all = TRUE) |> 
   select(event_id = id, season_type, retrieve_date, date, time, day_of_week,
          home_team, away_team, new_listings,
-         avg_price, lowest_price, highest_price, ticket_count)
-  
+         avg_price, lowest_price, highest_price, ticket_count) |> 
+    mutate(retrieve_date = lubridate::ymd(retrieve_date))
+
   df <- data.frame(mlb_dat_out)
-  daily_run_mlb <- rbind(daily_run_mlb, df)
   
+  df <- df |> 
+    inner_join(team_name_mapping, by = c("home_team" = "team_hyphen"))
+  
+  df <- df |> 
+    inner_join(mlb_standings, by = c("team_full_name" = "team",
+                                     "retrieve_date" = "date"))
+  
+  daily_run_mlb <- rbind(daily_run_mlb, df)
   
   }
   
