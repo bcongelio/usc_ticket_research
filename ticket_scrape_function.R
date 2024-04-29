@@ -5,6 +5,9 @@ library(data.table)
 library(vroom)
 library(tidycensus)
 
+SEATGEEK_CLIENT_ID <- Sys.getenv("SEATGEEK_CLIENT_ID")
+SEATGEEK_CLIENT_SECRET <- Sys.getenv("SEATGEEK_CLIENT_SECRET")
+
 daily_run_mlb <- data.frame()
 
 get_seatgeek_data <- function() {
