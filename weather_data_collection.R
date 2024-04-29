@@ -32,7 +32,7 @@ weather_data$mm_rain <- tidyr::replace_na(weather_data$mm_rain, 0)
 ### air pollution
 ######
 
-air_pollution <- httr::GET("http://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=33.79&lon=-117.88&appid=b2ae76516333541db501f5f3681b9e13")
+air_pollution <- httr::GET("http://api.openweathermap.org/data/2.5/air_pollution/forecast?lat=33.79&lon=-117.88&appid=###")
 
 
 air_pollution_data <- fromJSON(rawToChar(air_pollution$content))
