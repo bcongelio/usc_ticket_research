@@ -23,7 +23,13 @@ population_zips <- population |>
   left_join(mlb_zip_codes, by = c("NAME" = "zip_code"),
             relationship = "many-to-many")
 
+## making census data wide
+population_zips <- population_zips |> 
+  select(variable, estimate, moe, team_name) |> 
+  tidyr::pivot_wider(names_from = variable,
+                     values_from = c(estimate, moe))
+
 ## write off to csv for inclusion in daily run data
-write.csv(population_zips, "census_data.csv", row.names = FALSE)
+write.csv(population_zips, "census_data_wide.csv", row.names = FALSE)
 
 

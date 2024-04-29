@@ -1,7 +1,9 @@
 library(tidyverse)
 library(httr)
+library(rvest)
 library(data.table)
 library(vroom)
+library(tidycensus)
 
 daily_run_mlb <- data.frame()
 
@@ -103,7 +105,8 @@ get_seatgeek_data <- function() {
   select(event_id = id, season_type, retrieve_date, date, time, day_of_week,
          home_team, away_team, new_listings,
          avg_price, lowest_price, highest_price, ticket_count) |> 
-    mutate(retrieve_date = lubridate::ymd(retrieve_date))
+    mutate(retrieve_date = lubridate::ymd(retrieve_date)) |> 
+    filter(home_team != "toronto-blue-jays")
 
   df <- data.frame(mlb_dat_out)
   
@@ -119,6 +122,17 @@ get_seatgeek_data <- function() {
     inner_join(mlb_standings, by = c("team_full_name" = "team",
                                      "retrieve_date" = "date"))
   
+  ### retrieving pre-compiled census data information
+  census_data <- vroom::vroom("https://raw.githubusercontent.com/bcongelio/usc_ticket_research/main/census_data_wide.csv")
+  
+  census_data <- census_data |> 
+    mutate(team_name = case_when(
+      team_name == "Diamondbacks" ~ "D-backs",
+      TRUE ~ team_name))
+  
+  df <- df |> 
+    inner_join(census_data, by = c("team_name" = "team_name"))
+
   daily_run_mlb <- rbind(daily_run_mlb, df)
   
   }
