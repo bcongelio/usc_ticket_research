@@ -8,7 +8,7 @@ library(tidyr)
 ##Sys.getenv("OWM_API_KEY")
 
 
-url <- httr::GET("https://api.openweathermap.org/data/3.0/onecall?lat=33.79&lon=-117.88&exclude=current,minutely,hourly,alerts&units=imperial&appid=19576d339d4ae6c84273069c24979b01")
+url <- httr::GET("https://api.openweathermap.org/data/3.0/onecall?lat=33.79&lon=-117.88&exclude=current,minutely,hourly,alerts&units=imperial&appid=####")
 
 ### converting unicode to character vector
 weather_raw <- rawToChar(url$content)
