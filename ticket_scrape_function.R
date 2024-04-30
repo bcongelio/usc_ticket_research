@@ -127,6 +127,10 @@ get_seatgeek_data <- function() {
     inner_join(mlb_standings, by = c("team_full_name" = "team",
                                      "retrieve_date" = "date"))
   
+  #############
+  ## including census data
+  #############
+  
   ### retrieving pre-compiled census data information
   census_data <- vroom::vroom("https://raw.githubusercontent.com/bcongelio/usc_ticket_research/main/census_data_wide.csv")
   
@@ -151,17 +155,14 @@ daily_run <- get_seatgeek_data()
 ## weather data
 ############################
 
-### read in stadium coordinates
 stadiums <- vroom::vroom("https://raw.githubusercontent.com/bcongelio/usc_ticket_research/main/stadium_locations.csv")
 OWM_API_KEY <- Sys.getenv("OWM_API_KEY")
 
-### looping through coordinates for weather data
 get_daily_weather <- function() {
   weather_base_url <- "https://api.openweathermap.org/data/3.0/onecall?"
-  weather_daily_run <- list() # use a list to store temporary results
+  weather_daily_run <- list() 
   
   for(i in 1:nrow(stadiums)) {
-    # Construct URL
     weather_url <- modify_url(weather_base_url, query = list(
       lat = stadiums$lat[i],
       lon = stadiums$lng[i],
@@ -169,11 +170,9 @@ get_daily_weather <- function() {
       units = "imperial",
       appid = OWM_API_KEY))
     
-    # Make GET request
     response <- httr::GET(weather_url)
     
     if (status_code(response) == 200) {
-      # converting unicode to character vector
       weather_raw <- rawToChar(response$content)
       weather_data_city <- jsonlite::fromJSON(weather_raw)
       df <- as.data.frame(weather_data_city)
@@ -190,14 +189,13 @@ get_daily_weather <- function() {
                humidity = daily.humidity, dew_points = daily.dew_point, wind_speed = daily.wind_speed,
                clouds = daily.clouds, precip_chance = daily.pop, uv_index = daily.uvi)
       
-      # Append data frame to list
+      
       weather_daily_run[[i]] <- df
     } else {
       message("Failed to fetch data for row ", i)
     }
   }
   
-  # Combine all data frames
   do.call(rbind, weather_daily_run)
 }
 
@@ -278,7 +276,6 @@ daily_run<- daily_run |>
   left_join(combined_weather_data, by = c("team_full_name" = "team",
                                           "date" = "date",
                                           "retrieve_date" = "retrieve_date"))
-
 daily_run <- daily_run |> 
   na.omit()
 
