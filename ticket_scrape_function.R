@@ -8,7 +8,6 @@ library(usethis)
 
 SEATGEEK_CLIENT_ID <- Sys.getenv("SEATGEEK_CLIENT_ID")
 SEATGEEK_CLIENT_SECRET <- Sys.getenv("SEATGEEK_CLIENT_SECRET")
-##usethis::edit_r_environ()
 
 daily_run_mlb <- data.frame()
 
