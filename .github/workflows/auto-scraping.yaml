@@ -1,4 +1,4 @@
-name: daily_auto_scrape
+name: daily_ticket_scrape
 
 ### controlling when the action will run
 on:
