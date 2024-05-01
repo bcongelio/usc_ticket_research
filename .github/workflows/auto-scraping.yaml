@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron:   '00 20 * * *'
+    - cron:   '05 20 * * *'
 
 jobs:
   auto-scrape:
@@ -22,12 +22,12 @@ jobs:
         
       - name: Install Packages
         run: |
-          R -e 'install.packages("tidyverse")
-          R -e 'install.packages("httr")
-          R -e 'install.packages("data.table")
-          R -e 'install.packages("usethis")
-          R -e 'install.packages("jsonlite")
-          R -e 'install.packages("tidyr")
+          R -e 'install.packages("tidyverse")'
+          R -e 'install.packages("httr")'
+          R -e 'install.packages("data.table")'
+          R -e 'install.packages("usethis")'
+          R -e 'install.packages("jsonlite")'
+          R -e 'install.packages("tidyr")'
       
       - name: daily_scrape
         run: ticket_scrape_function.R
