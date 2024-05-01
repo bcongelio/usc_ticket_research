@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron:   '50 19 * * *'
+    - cron:   '35 23 * * *'
 
 jobs:
   auto-scrape:
@@ -30,7 +30,7 @@ jobs:
           R -e 'install.packages("tidyr")'
       
       - name: daily_scrape
-        run: ticket_scrape_function.R
+        run: Rscript -e 'ticket_scrape_function.R'
       
       - name: Commit files
         run: |
