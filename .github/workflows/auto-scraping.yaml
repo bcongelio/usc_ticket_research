@@ -3,21 +3,21 @@ name: daily_ticket_scrape
 ### controlling when the action will run
 on:
   schedule:
-    - cron:   '35 17 * * *'
+    - cron:   '50 17 * * *'
     
 jobs:
   autoscrape:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: '4.3.3'
     
     env:
       SEATGEEK_CLIENT_ID: ${{secrets.SEATGEEK_CLIENT_ID}}
       SEATGEEK_CLIENT_SECRET: ${{secrets.SEATGEEK_CLIENT_SECRET}}
       OWM_API_KEY: ${{secrets.OWM_API_KEY}}
-    
-    ### loading repo and installing R
-    steps:
-    - uses: actions/checkout@master
-    - uses: r-lib/actions/setup-r@master
     
     ### setting up R
     - name: Install Packages
