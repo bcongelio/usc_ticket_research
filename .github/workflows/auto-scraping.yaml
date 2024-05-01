@@ -4,10 +4,10 @@ on:
   schedule:
     - cron:   '15 18 * * *'
 
-name: gh_seatgeek
+name: auto-scrape
 
 jobs:
-  gh_seatgeek:
+  auto-scrape:
     runs-on: ubuntu-latest
     env:
       SEATGEEK_CLIENT_ID: ${{secrets.SEATGEEK_CLIENT_ID}}
