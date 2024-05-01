@@ -3,7 +3,7 @@ name: daily_ticket_scrape
 ### controlling when the action will run
 on:
   schedule:
-    - cron:   '30 4 * * *'
+    - cron:   '35 13 * * *'
     
 jobs:
   autoscrape:
