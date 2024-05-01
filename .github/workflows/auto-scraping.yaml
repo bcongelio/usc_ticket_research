@@ -1,1 +1,43 @@
+name: daily_auto_scrape
 
+### controlling when the action will run
+on:
+  schedule:
+    - cron:   '0 12 * * *'
+    
+jobs:
+  autoscrape:
+    runs-on: ubuntu-latest
+    
+    env:
+      SEATGEEK_CLIENT_ID: ${{secrets.SEATGEEK_CLIENT_ID}}
+      SEATGEEK_CLIENT_SECRET: ${{secrets.SEATGEEK_CLIENT_SECRET}}
+      OWM_API_KEY: ${{secrets.OWM_API_KEY}}
+    
+    ### loading repo and installing R
+    steps:
+    - uses: actions/checkout@master
+    - uses: r-lib/actions/setup-r@master
+    
+    ### setting up R
+    - name: Install Packages
+      run: |
+        R -e 'install.packages("tidyverse")
+        R -e 'install.packages("httr")
+        R -e 'install.packages("data.table")
+        R -e 'install.packages("usethis")
+        R -e 'install.packages("jsonlite")
+        R -e 'install.packages("tidyr")
+    - name: daily_scrape
+      run: ticket_scrape_function.R
+      
+    - name: Commit files
+      run: |
+        git config --local user.name actions-user
+        git config --local user.email "actions@github.com"
+        git add daily_data/*
+        git commit -m "GH Daily Run $(date)"
+        git push origin main
+      env:
+        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+        username: github-actions
