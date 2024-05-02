@@ -30,12 +30,12 @@ jobs:
           R -e 'install.packages("tidyr")'
       
       - name: daily_scrape
-        run: Rscript -e 'ticket_scrape_function.R'
+        run: Rscript -e './ticket_scrape_function.R'
       
       - name: Commit files
         run: |
           git config --local user.name actions-user
           git config --local user.email "actions@github.com"
-          git add daily_data/*
+          git add ./daily_data/*
           git commit -m "GH Daily Run $(date)"
           git push origin
