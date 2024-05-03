@@ -78,7 +78,7 @@ get_seatgeek_data <- function() {
     
     ### unnesting
     mlb_dat <- mlb_parsed$events |> 
-      unnest(cols = c(performers, stats), names_sep = "new") |> 
+      tidyr::unnest(cols = c(performers, stats), names_sep = "new") |> 
       group_by(id) |> 
       slice(1:2) |> 
       ungroup() |> 
