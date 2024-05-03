@@ -2,19 +2,20 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '20 14 * * *'
+    - cron: '35 14 * * *'
 
 jobs:
   auto-scrape:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     env:
       SEATGEEK_CLIENT_ID: ${{ secrets.SEATGEEK_CLIENT_ID }}
       SEATGEEK_CLIENT_SECRET: ${{ secrets.SEATGEEK_CLIENT_SECRET }}
       OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
       REPO_KEY: ${{ secrets.GITHUB_TOKEN }}
       username: github-actions
-      permission:
-        contents: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -32,7 +33,7 @@ jobs:
           install.packages("httr")
           install.packages("rvest")
           install.packages("data.table")
-        shell: Rscript {0}
+        shell: Rscript
 
       - name: Packages Installed Check
         run: |
@@ -44,7 +45,7 @@ jobs:
           if (!require("httr")) { stop("httr not installed") }
           if (!require("rvest")) { stop("rvest not installed") }
           if (!require("data.table")) { stop("data.table not installed") }
-        shell: Rscript {0}
+        shell: Rscript
 
       - name: daily_scrape
         run: Rscript ./ticket_scrape_function.R
