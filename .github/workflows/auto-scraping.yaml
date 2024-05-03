@@ -33,7 +33,7 @@ jobs:
           install.packages("httr")
           install.packages("rvest")
           install.packages("data.table")
-        shell: Rscript
+        shell: Rscript {0}
 
       - name: Packages Installed Check
         run: |
@@ -45,7 +45,7 @@ jobs:
           if (!require("httr")) { stop("httr not installed") }
           if (!require("rvest")) { stop("rvest not installed") }
           if (!require("data.table")) { stop("data.table not installed") }
-        shell: Rscript
+        shell: Rscript {0}
 
       - name: daily_scrape
         run: Rscript ./ticket_scrape_function.R
