@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '51 14 * * *'
+    - cron: '54 16 * * *'
 
 jobs:
   auto-scrape:
@@ -26,6 +26,7 @@ jobs:
       - name: Install Packages
         run: |
           install.packages("dplyr")
+          install.packages("curl")
           install.packages("tidyr")
           install.packages("jsonlite")
           install.packages("lubridate")
@@ -41,8 +42,9 @@ jobs:
           if (!require("tidyr")) { stop("tidyr not installed") }
           if (!require("jsonlite")) { stop("jsonlite not installed") }
           if (!require("lubridate")) { stop("lubridate not installed") }
-          if (!require("vroom")) { stop("vroom not installed") }
           if (!require("httr")) { stop("httr not installed") }
+          if (!require("curl")) { stop("curl not installed") }
+          if (!require("vroom")) { stop("vroom not installed") }
           if (!require("rvest")) { stop("rvest not installed") }
           if (!require("data.table")) { stop("data.table not installed") }
         shell: Rscript {0}
