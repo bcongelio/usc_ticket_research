@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '00 17 * * *'
+    - cron: '01 17 * * *'
 
 jobs:
   auto-scrape:
