@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '30 18 * * *'
+    - cron: '46 18 * * *'
 
 jobs:
   auto-scrape:
@@ -37,6 +37,7 @@ jobs:
           install.packages("httr")
           install.packages("rvest")
           install.packages("data.table")
+          install.packages("janitor")
         shell: Rscript {0}
 
       - name: Packages Installed Check
@@ -50,6 +51,7 @@ jobs:
           if (!require("vroom")) { stop("vroom not installed") }
           if (!require("rvest")) { stop("rvest not installed") }
           if (!require("data.table")) { stop("data.table not installed") }
+          if (!require("janitor")) { stop("janitor not installed") }
         shell: Rscript {0}
 
       - name: daily_scrape
