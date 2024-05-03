@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron:   '35 21 * * *'
+    - cron:   '55 13 * * *'
 
 jobs:
   auto-scrape:
@@ -13,6 +13,8 @@ jobs:
       OWM_API_KEY: ${{secrets.OWM_API_KEY}}
       REPO_KEY: ${{secrets.GITHUB_TOKEN}}
       username: github-actions
+      permission:
+        contents: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -21,13 +23,29 @@ jobs:
         uses: r-lib/actions/setup-r@v2
         
       - name: Install Packages
-        run: |
-          R -e 'install.packages("tidyverse")'
-          R -e 'install.packages("httr")'
-          R -e 'install.packages("data.table")'
-          R -e 'install.packages("usethis")'
-          R -e 'install.packages("jsonlite")'
-          R -e 'install.packages("tidyr")'
+          run: |
+            'install.packages("dplyr")'
+            'install.packages("tidyr")'
+            'install.packages("jsonlite")'
+            'install.packages("lubridate")'
+            'install.packages("vroom")'
+            'install.packages("httr")'
+            'install.packages("rvest")'
+            'install.packages("data.table")'
+          shell: Rscript{0}
+        
+      - name: Packages Installed Check
+          run: |
+            if(!require("dplyr")) { stop("dplyr not installed") }
+            if(!require("tidyr")) { stop("tidyr not installed") }
+            if(!require("jsonlite")) { stop("jsonlite not installed") }
+            if(!require("lubridate")) { stop("lubridate not installed") }
+            if(!require("vroom")) { stop("vroom not installed") }
+            if(!require("httr")) { stop("httr not installed") }
+            if(!require("rvest")) { stop("rvest not installed") }
+            if(!require("data.table")) { stop("data.table not installed") }
+          shell: Rscript{0}
+          
       
       - name: daily_scrape
         run: Rscript ./ticket_scrape_function.R

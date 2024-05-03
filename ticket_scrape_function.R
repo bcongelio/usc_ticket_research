@@ -1,8 +1,11 @@
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(jsonlite)
+library(lubridate)
+library(vroom)
 library(httr)
 library(rvest)
 library(data.table)
-library(usethis)
 
 SEATGEEK_CLIENT_ID <- Sys.getenv("SEATGEEK_CLIENT_ID")
 SEATGEEK_CLIENT_SECRET <- Sys.getenv("SEATGEEK_CLIENT_SECRET")
