@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '12 17 * * *'
+    - cron: '30 17 * * *'
 
 jobs:
   auto-scrape:
@@ -25,16 +25,15 @@ jobs:
 
       - name: Install Packages
         run: |
-          install.packages("dplyr")
-          install.packages("libcurl")
-          install.packages("curl")
-          install.packages("tidyr")
-          install.packages("jsonlite")
-          install.packages("lubridate")
-          install.packages("vroom")
-          install.packages("httr")
-          install.packages("rvest")
-          install.packages("data.table")
+          install.packages("dplyr", dependencies = TRUE)
+          install.packages("stringr", dependencies = TRUE )
+          install.packages("tidyr", dependencies = TRUE)
+          install.packages("jsonlite", dependencies = TRUE)
+          install.packages("lubridate", dependencies = TRUE)
+          install.packages("vroom", dependencies = TRUE)
+          install.packages("httr", dependencies = TRUE)
+          install.packages("rvest", dependencies = TRUE)
+          install.packages("data.table", dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Packages Installed Check
@@ -44,7 +43,7 @@ jobs:
           if (!require("jsonlite")) { stop("jsonlite not installed") }
           if (!require("lubridate")) { stop("lubridate not installed") }
           if (!require("httr")) { stop("httr not installed") }
-          if (!require("curl")) { stop("curl not installed") }
+          if (!require("stringr")) { stop("stringr not installed") }
           if (!require("vroom")) { stop("vroom not installed") }
           if (!require("rvest")) { stop("rvest not installed") }
           if (!require("data.table")) { stop("data.table not installed") }
