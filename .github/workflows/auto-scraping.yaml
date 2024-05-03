@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '30 17 * * *'
+    - cron: '30 18 * * *'
 
 jobs:
   auto-scrape:
@@ -22,18 +22,21 @@ jobs:
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
+        
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev
 
       - name: Install Packages
         run: |
-          install.packages("dplyr", dependencies = TRUE)
-          install.packages("stringr", dependencies = TRUE )
-          install.packages("tidyr", dependencies = TRUE)
-          install.packages("jsonlite", dependencies = TRUE)
-          install.packages("lubridate", dependencies = TRUE)
-          install.packages("vroom", dependencies = TRUE)
-          install.packages("httr", dependencies = TRUE)
-          install.packages("rvest", dependencies = TRUE)
-          install.packages("data.table", dependencies = TRUE)
+          install.packages("dplyr")
+          install.packages("stringr")
+          install.packages("tidyr")
+          install.packages("jsonlite")
+          install.packages("lubridate")
+          install.packages("vroom")
+          install.packages("httr")
+          install.packages("rvest")
+          install.packages("data.table")
         shell: Rscript {0}
 
       - name: Packages Installed Check

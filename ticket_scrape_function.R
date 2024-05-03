@@ -6,6 +6,7 @@ library(vroom)
 library(httr)
 library(rvest)
 library(data.table)
+library(stringr)
 
 SEATGEEK_CLIENT_ID <- Sys.getenv("SEATGEEK_CLIENT_ID")
 SEATGEEK_CLIENT_SECRET <- Sys.getenv("SEATGEEK_CLIENT_SECRET")
