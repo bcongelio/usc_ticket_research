@@ -2,7 +2,7 @@ name: daily_ticket_scrape
 
 on:
   schedule:
-    - cron: '54 16 * * *'
+    - cron: '12 17 * * *'
 
 jobs:
   auto-scrape:
@@ -26,6 +26,7 @@ jobs:
       - name: Install Packages
         run: |
           install.packages("dplyr")
+          install.packages("libcurl")
           install.packages("curl")
           install.packages("tidyr")
           install.packages("jsonlite")
