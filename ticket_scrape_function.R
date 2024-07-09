@@ -78,15 +78,13 @@ get_seatgeek_data <- function() {
     
     ### unnesting
     mlb_dat <- mlb_parsed$events |> 
-      tidyr::unnest(cols = c(performers, stats), names_sep = "new") |> 
+      unnest(cols = c(performers, stats), names_sep = "new") |> 
       group_by(id) |> 
       slice(1:2) |> 
       ungroup() |> 
       select(id, datetime_local, teams = performersnewname,
              performersnewid, performersnewslug, performersnewshort_name, performersnewhome_team,
-             performersnewaway_team, is_open, short_title, new_listings = statsnewlisting_count,
-             avg_price = statsnewaverage_price, lowest_price = statsnewlowest_price,
-             highest_price = statsnewhighest_price, ticket_count = statsnewticket_count)
+             performersnewaway_team, popularity)
     
     mlb_dat_out <- mlb_dat |> 
       mutate(datetime_local = lubridate::as_datetime(datetime_local),
@@ -109,18 +107,13 @@ get_seatgeek_data <- function() {
     
     mlb_dat_out <- mlb_dat_out |> 
       left_join(game_data, by = "id") |> 
-      mutate(season_type = case_when(short_title %like% "Spring Training" ~ "Spring Training")) |>
-      filter(!short_title %like% "(Exhibition)") |> 
-      mutate(season_type = case_when(!short_title %like% "Spring Training" ~ "Regular Season",
-                                     TRUE ~ season_type)) |> 
-      ungroup() |> 
       distinct(id, .keep_all = TRUE) |> 
-      select(event_id = id, season_type, retrieve_date, date, time, day_of_week,
-             home_team, away_team, new_listings,
-             avg_price, lowest_price, highest_price, ticket_count) |> 
+      select(event_id = id, retrieve_date, date, time, day_of_week,
+             home_team, away_team, popularity) |> 
       mutate(retrieve_date = lubridate::ymd(retrieve_date)) |> 
-      filter(home_team != "toronto-blue-jays")
-    
+      filter(home_team != "toronto-blue-jays") |> 
+      filter(home_team != "mlb-all-star-game" & home_team != "swingman-classic-hbcu-all-star-game" &
+               home_team != "mlb-futures-and-legends-game" & home_team != "mlb-home-run-derby")
     
     df <- data.frame(mlb_dat_out)
     
