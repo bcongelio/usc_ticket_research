@@ -83,3 +83,5 @@ publication_data <- publication_data |>
            vs_rhp_pct, vs_lhp_wins, vs_lhp_losses, vs_lhp_pct, vs_winning_teams_wins, vs_winning_teams_losses,
            vs_winning_teams_pct, vs_losing_teams_wins, vs_losing_teams_losses, vs_losing_teams_pct, last_10_wins,
            last_10_losses, last_10_pct, last_20_wins, last_20_losses, last_20_pct, last_30_wins, last_30_losses, last_30_pct, everything())
+
+write.csv(publication_data, "publication_data.csv", row.names = FALSE)
